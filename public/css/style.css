@@ -598,8 +598,8 @@ body{
   }
   
   .logo-cloud {
-    width: 80px !important;
-    height: 80px !important;
+    width: 180px !important;
+    height: 180px !important;
   }
   
   .nav-tab {
@@ -719,8 +719,8 @@ html {
   }
   
   .logo-cloud {
-    width: 70px !important;
-    height: 70px !important;
+    width: 160px !important;
+    height: 160px !important;
   }
 }
 
