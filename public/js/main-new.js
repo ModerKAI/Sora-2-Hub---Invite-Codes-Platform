@@ -60,7 +60,7 @@ console.log('🚀 Sora 2 Hub - Main script loaded successfully');
   
   // Loading screen logic
   const loaderStartTime = performance.now();
-  const minLoaderTime = 2500;
+  const minLoaderTime = 3500; // Увеличил время чтобы видео успело доиграть
   let contentShown = false;
   
   function showMainContent() {
@@ -91,7 +91,7 @@ console.log('🚀 Sora 2 Hub - Main script loaded successfully');
     }, delay);
   }
   
-  // Fallback: показать контент через 2 секунды в любом случае
+  // Fallback: показать контент через 5 секунд в любом случае
   setTimeout(() => {
     if (!contentShown) {
       console.log('Fallback: showing content after timeout');
@@ -101,7 +101,7 @@ console.log('🚀 Sora 2 Hub - Main script loaded successfully');
       }
       showMainContent();
     }
-  }, 2000);
+  }, 5000);
   
   // Progress animation
   if (video && progressText) {
@@ -176,13 +176,13 @@ console.log('🚀 Sora 2 Hub - Main script loaded successfully');
       }
     }, 1500);
     
-    // Финальный fallback
+    // Финальный fallback - дать больше времени для проигрывания видео
     setTimeout(() => {
       if (!contentShown) {
         console.log('Final fallback triggered');
         showMainContent();
       }
-    }, 8000);
+    }, 10000);
   } else {
     console.log('No video element found, showing content directly');
     setTimeout(showMainContent, minLoaderTime);
