@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Modal</title>
+    <style>
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+        }
+        .modal.hidden {
+            display: none;
+        }
+        .sora-modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+        }
+        .submit-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px;
+        }
+        .sora-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body style="background: #0f0f23; color: white; padding: 50px;">
+    <h1>Test Modal System</h1>
+    <button id="testSubmitBtn" class="submit-btn">📝 Test Submit Code</button>
+    
+    <!-- Test Modal -->
+    <div id="testModal" class="modal hidden" aria-hidden="true">
+        <div class="sora-modal-content">
+            <button id="testCloseBtn" class="sora-close-btn">×</button>
+            <h2>Test Modal Works!</h2>
+            <p>This is a test modal to verify the functionality.</p>
+            <button id="testOkBtn" class="submit-btn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        console.log('Test script loaded');
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            
+            const testBtn = document.getElementById('testSubmitBtn');
+            const testModal = document.getElementById('testModal');
+            const testCloseBtn = document.getElementById('testCloseBtn');
+            const testOkBtn = document.getElementById('testOkBtn');
+            
+            console.log('Elements:', { testBtn, testModal, testCloseBtn, testOkBtn });
+            
+            if (testBtn && testModal) {
+                testBtn.addEventListener('click', function() {
+                    console.log('Test button clicked!');
+                    testModal.classList.remove('hidden');
+                    testModal.setAttribute('aria-hidden', 'false');
+                });
+                
+                testCloseBtn.addEventListener('click', function() {
+                    console.log('Close button clicked!');
+                    testModal.classList.add('hidden');
+                    testModal.setAttribute('aria-hidden', 'true');
+                });
+                
+                testOkBtn.addEventListener('click', function() {
+                    console.log('OK button clicked!');
+                    testModal.classList.add('hidden');
+                    testModal.setAttribute('aria-hidden', 'true');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "sora-code-giveaway",
+  "version": "1.0.0",
+  "description": "Simple and beautiful code giveaway website with loading screen",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.0"
+  }
+}

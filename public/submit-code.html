@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Code - Sora 2 Hub</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <style>
+        /* Дополнительные стили для страницы формы */
+        body {
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+        }
+
+        .submit-page-container {
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: var(--accent);
+            color: #022;
+            transform: translateY(-2px);
+        }
+
+        .sora-logo-container {
+            margin-bottom: 30px;
+        }
+
+        .sora-logo-large {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            overflow: visible;
+        }
+
+        .sora-logo-large img {
+            width: 200px !important;
+            height: 200px !important;
+            border-radius: 50%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .form-container {
+            margin-bottom: 30px;
+        }
+
+        .code-input-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .code-digit {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .code-digit:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .code-digit:not(:placeholder-shown) {
+            border-color: var(--accent);
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .form-info {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--success);
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            color: #ef4444;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .last-code-info {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 640px) {
+            .submit-page-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            .code-input-container {
+                gap: 10px;
+            }
+
+            .code-digit {
+                width: 45px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="submit-page-container">
+        <a href="#" onclick="goBackToHub()" class="back-button">
+            <span>←</span>
+            <span>Back to Hub</span>
+        </a>
+
+        <div class="sora-logo-container">
+            <div class="sora-logo-large">
+                <img src="assets/cloud-logo.PNG" alt="Sora Cloud">
+            </div>
+            <h1 class="page-title">Submit Invite Code</h1>
+            <p class="page-subtitle">Share your code with the community</p>
+        </div>
+
+        <div class="form-container">
+            <form id="submitCodeForm">
+                <div class="code-input-container">
+                    <input type="text" class="code-digit" maxlength="1" data-index="0">
+                    <input type="text" class="code-digit" maxlength="1" data-index="1">
+                    <input type="text" class="code-digit" maxlength="1" data-index="2">
+                    <input type="text" class="code-digit" maxlength="1" data-index="3">
+                    <input type="text" class="code-digit" maxlength="1" data-index="4">
+                    <input type="text" class="code-digit" maxlength="1" data-index="5">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                    Submit to Community
+                </button>
+            </form>
+
+            <div class="form-info">
+                <p>Enter a valid 6-character Sora invite code to share with the community.</p>
+                <p>Your code will be available to other users immediately after submission.</p>
+            </div>
+
+            <div id="successMessage" class="success-message">
+                <strong>✅ Code submitted successfully!</strong><br>
+                Thank you for contributing to the community.
+            </div>
+
+            <div id="errorMessage" class="error-message">
+                <strong>❌ Failed to submit code</strong><br>
+                <span id="errorText">Please check your code and try again.</span>
+            </div>
+
+            <div class="last-code-info">
+                <p><strong>Last code submitted:</strong> <span id="lastSubmittedTime">No codes submitted yet</span></p>
+                <p><strong>Community codes available:</strong> <span id="availableCodes">Loading...</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Submit code page logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('submitCodeForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const codeInputs = document.querySelectorAll('.code-digit');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const lastSubmittedTime = document.getElementById('lastSubmittedTime');
+            const availableCodes = document.getElementById('availableCodes');
+
+            // Обработка ввода кода
+            codeInputs.forEach((input, index) => {
+                input.addEventListener('input', function(e) {
+                    let value = e.target.value.toUpperCase();
+                    
+                    // Разрешаем только буквы и цифры (A-Z, 0-9)
+                    value = value.replace(/[^A-Z0-9]/g, '');
+                    
+                    if (value.length > 1) {
+                        value = value.slice(0, 1);
+                    }
+                    
+                    e.target.value = value;
+                    
+                    // Переход к следующему полю
+                    if (value && index < codeInputs.length - 1) {
+                        codeInputs[index + 1].focus();
+                    }
+                    
+                    updateSubmitButton();
+                });
+                
+                // Разрешить ввод букв через keypress
+                input.addEventListener('keypress', function(e) {
+                    const char = String.fromCharCode(e.which).toUpperCase();
+                    if (!/[A-Z0-9]/.test(char)) {
+                        e.preventDefault();
+                    }
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    // Backspace - переход к предыдущему полю
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        codeInputs[index - 1].focus();
+                    }
+                    
+                    // Стрелки для навигации
+                    if (e.key === 'ArrowLeft' && index > 0) {
+                        codeInputs[index - 1].focus();
+                    }
+                    if (e.key === 'ArrowRight' && index < codeInputs.length - 1) {
+                        codeInputs[index + 1].focus();
+                    }
+                });
+
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const paste = (e.clipboardData || window.clipboardData).getData('text').toUpperCase();
+                    // Разрешаем только буквы и цифры (A-Z, 0-9) при вставке
+                    const cleanPaste = paste.replace(/[^A-Z0-9]/g, '');
+                    
+                    // Очищаем все поля перед заполнением
+                    codeInputs.forEach(inp => inp.value = '');
+                    
+                    // Заполняем поля начиная с первого
+                    for (let i = 0; i < Math.min(cleanPaste.length, codeInputs.length); i++) {
+                        codeInputs[i].value = cleanPaste[i];
+                    }
+                    
+                    updateSubmitButton();
+                    
+                    // Фокус на следующее пустое поле или последнее заполненное
+                    const nextEmpty = Array.from(codeInputs).find(inp => !inp.value);
+                    if (nextEmpty) {
+                        nextEmpty.focus();
+                    } else {
+                        codeInputs[Math.min(cleanPaste.length - 1, codeInputs.length - 1)].focus();
+                    }
+                });
+            });
+
+            function updateSubmitButton() {
+                const code = Array.from(codeInputs).map(input => input.value).join('');
+                submitBtn.disabled = code.length !== 6;
+            }
+
+            // Отправка формы
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const code = Array.from(codeInputs).map(input => input.value).join('');
+                
+                if (code.length !== 6) {
+                    showError('Please enter a complete 6-character code');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submitting...';
+                hideMessages();
+
+                try {
+                    const response = await fetch('/api/submit-code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ code: code })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showSuccess();
+                        form.reset();
+                        codeInputs.forEach(input => input.value = '');
+                        updateLastSubmittedTime();
+                        updateAvailableCodes();
+                        
+                        // Перенаправляем на главную страницу через 2 секунды
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    } else {
+                        showError(result.error || 'Failed to submit code');
+                    }
+                } catch (error) {
+                    console.error('Submit error:', error);
+                    showError('Network error. Please try again.');
+                }
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit to Community';
+                updateSubmitButton();
+            });
+
+            function showSuccess() {
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+
+            function hideMessages() {
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+            }
+
+            function updateLastSubmittedTime() {
+                const now = new Date();
+                lastSubmittedTime.textContent = now.toLocaleString();
+                localStorage.setItem('lastSubmittedTime', now.toISOString());
+            }
+
+            function updateAvailableCodes() {
+                fetch('/api/codes')
+                    .then(response => response.json())
+                    .then(data => {
+                        availableCodes.textContent = data.current ? '1' : '0';
+                    })
+                    .catch(() => {
+                        availableCodes.textContent = 'N/A';
+                    });
+            }
+
+            // Загрузка начальных данных
+            function loadInitialData() {
+                const lastTime = localStorage.getItem('lastSubmittedTime');
+                if (lastTime) {
+                    const date = new Date(lastTime);
+                    lastSubmittedTime.textContent = date.toLocaleString();
+                }
+                
+                updateAvailableCodes();
+            }
+
+            loadInitialData();
+            
+            // Функция для возврата на главную без экрана загрузки
+            window.goBackToHub = function() {
+                // Используем history.back() если пришли с главной, иначе location.href
+                if (document.referrer.includes('localhost:3001') && !document.referrer.includes('submit-code')) {
+                    history.back();
+                } else {
+                    window.location.href = 'index.html';
+                }
+            };
+            
+            // Фокус на первое поле при загрузке
+            codeInputs[0].focus();
+        });
+    </script>
+</body>
+</html>
